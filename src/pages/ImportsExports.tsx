@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { Globe, Package, ChevronRight } from 'lucide-react';
+import { Globe, ChevronRight } from 'lucide-react';
 import { supabase } from '../lib/supabase';
 
 interface Trade {

@@ -1,5 +1,5 @@
 import { Mail, MessageCircle, Phone, MapPin, Send } from 'lucide-react';
-import { useState } from 'react';
+import { useState, type ElementType } from 'react';
 
 export default function Contact() {
   const [formData, setFormData] = useState({
@@ -20,7 +20,11 @@ export default function Contact() {
     }, 3000);
   };
 
-  const contactInfo = [
+  const contactInfo: {
+    icon: ElementType;
+    label: string;
+    items: { text: string; href: string; subtitle?: string }[];
+  }[] = [
     {
       icon: Phone,
       label: 'Phone Lines',

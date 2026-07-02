@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { supabase } from '../lib/supabase';
+import { supabase, isSupabaseConfigured } from '../lib/supabase';
 import type { User } from '@supabase/supabase-js';
 
 export function useAuth() {
@@ -7,6 +7,12 @@ export function useAuth() {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
+    if (!isSupabaseConfigured) {
+      setUser(null);
+      setLoading(false);
+      return;
+    }
+
     setLoading(true);
 
     supabase.auth.getSession().then(({ data: { session } }) => {
