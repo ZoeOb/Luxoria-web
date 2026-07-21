@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { useAuth } from '../hooks/useAuth';
 import { supabase } from '../lib/supabase';
-import { Wallet, Heart, Clock, TrendingUp, Settings } from 'lucide-react';
+import { Wallet, Heart, Clock, TrendingUp, LogOut, Settings } from 'lucide-react';
 
 type Page = 'home' | 'realestate' | 'autos' | 'jewelry' | 'investments' | 'importsexports' | 'about' | 'contact' | 'login' | 'dashboard';
 

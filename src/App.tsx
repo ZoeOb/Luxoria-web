@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { isSupabaseConfigured } from './lib/supabase';
+import { supabase } from './lib/supabase';
 import { useAuth } from './hooks/useAuth';
 import Navigation from './components/Navigation';
 import Home from './pages/Home';
@@ -13,8 +13,9 @@ import Contact from './pages/Contact';
 import Login from './pages/Login';
 import Dashboard from './pages/Dashboard';
 import SellerDashboard from './pages/SellerDashboard';
+import AdminDashboard from './pages/AdminDashboard';
 
-type Page = 'home' | 'realestate' | 'autos' | 'jewelry' | 'investments' | 'importsexports' | 'about' | 'contact' | 'login' | 'dashboard' | 'seller';
+type Page = 'home' | 'realestate' | 'autos' | 'jewelry' | 'investments' | 'importsexports' | 'about' | 'contact' | 'login' | 'dashboard' | 'seller' | 'admin';
 
 function App() {
   const [currentPage, setCurrentPage] = useState<Page>('home');
@@ -38,29 +39,6 @@ function App() {
   }
 
   const renderPage = () => {
-    if (!isSupabaseConfigured && ['login', 'dashboard', 'seller'].includes(currentPage)) {
-      return (
-        <div className="min-h-screen bg-black flex items-center justify-center px-4">
-          <div className="max-w-md text-center border border-gold/30 bg-gradient-to-br from-gray-900 to-black p-8 sm:p-12">
-            <div className="w-16 h-16 border-2 border-gold flex items-center justify-center mx-auto mb-6">
-              <span className="text-gold font-bold text-2xl">!</span>
-            </div>
-            <h1 className="text-2xl font-light text-white mb-4">Configuration Required</h1>
-            <p className="text-gray-400 font-light mb-6">
-              Supabase credentials are missing. Please set:
-            </p>
-            <div className="text-left bg-black/50 border border-gold/20 p-4 mb-6 text-sm font-mono text-gold/90 space-y-2">
-              <p>VITE_SUPABASE_URL=https://your-project.supabase.co</p>
-              <p>VITE_SUPABASE_ANON_KEY=your-anon-key</p>
-            </div>
-            <p className="text-gray-500 text-sm font-light">
-              Public pages (Home, About, Contact) will still render without these credentials.
-            </p>
-          </div>
-        </div>
-      );
-    }
-
     switch (currentPage) {
       case 'home':
         return <Home onNavigate={setCurrentPage} />;
@@ -84,6 +62,8 @@ function App() {
         return user ? <Dashboard onNavigate={setCurrentPage} /> : <Login onNavigate={setCurrentPage} />;
       case 'seller':
         return user ? <SellerDashboard onNavigate={setCurrentPage} /> : <Login onNavigate={setCurrentPage} />;
+      case 'admin':
+        return user ? <AdminDashboard onNavigate={setCurrentPage} /> : <Login onNavigate={setCurrentPage} />;
       default:
         return <Home onNavigate={setCurrentPage} />;
     }

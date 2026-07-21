@@ -1,10 +1,11 @@
 import { useState, useEffect } from 'react';
 import { useAuth } from '../hooks/useAuth';
-import { uploadMultipleImages } from '../lib/storage';
+import { supabase } from '../lib/supabase';
+import { uploadImage, uploadMultipleImages } from '../lib/storage';
 import { createProperty, getUserProperties, deleteProperty } from '../services/propertyService';
 import { createVehicle, getUserVehicles, deleteVehicle } from '../services/vehicleService';
 import { createJewelry, getUserJewelry, deleteJewelry } from '../services/jewelryService';
-import { Trash2, Edit2, ImagePlus } from 'lucide-react';
+import { Plus, Trash2, Edit2, ImagePlus } from 'lucide-react';
 
 type ListingType = 'property' | 'vehicle' | 'jewelry';
 

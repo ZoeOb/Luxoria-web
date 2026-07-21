@@ -1,9 +1,16 @@
 import { useState } from 'react';
-import { Menu, X, LogOut } from 'lucide-react';
+import { Menu, X, LogOut, Lock } from 'lucide-react';
 import { supabase } from '../lib/supabase';
 import type { User } from '@supabase/supabase-js';
 
-type Page = 'home' | 'realestate' | 'autos' | 'jewelry' | 'investments' | 'importsexports' | 'about' | 'contact' | 'login' | 'dashboard' | 'seller';
+type Page = 'home' | 'realestate' | 'autos' | 'jewelry' | 'investments' | 'importsexports' | 'about' | 'contact' | 'login' | 'dashboard' | 'seller' | 'admin';
+
+const ADMIN_EMAILS = [
+  'obidah@luxoriagroup.com',
+  'charles@luxoriagroup.com',
+  'zedg7729@gmail.com',
+  'esomchi2016@gmail.com'
+];
 
 interface NavigationProps {
   currentPage: Page;
@@ -65,16 +72,31 @@ export default function Navigation({ currentPage, onNavigate, user }: Navigation
               </button>
             ))}
             {user && (
-              <button
-                onClick={() => onNavigate('seller')}
-                className={`text-sm tracking-wider transition-colors ${
-                  currentPage === 'seller'
-                    ? 'text-gold'
-                    : 'text-gray-300 hover:text-gold'
-                }`}
-              >
-                Sell
-              </button>
+              <>
+                <button
+                  onClick={() => onNavigate('seller')}
+                  className={`text-sm tracking-wider transition-colors ${
+                    currentPage === 'seller'
+                      ? 'text-gold'
+                      : 'text-gray-300 hover:text-gold'
+                  }`}
+                >
+                  Sell
+                </button>
+                {user.email && ADMIN_EMAILS.some(email => email.toLowerCase() === user.email?.toLowerCase()) && (
+                  <button
+                    onClick={() => onNavigate('admin')}
+                    className={`text-sm tracking-wider transition-colors flex items-center gap-1 ${
+                      currentPage === 'admin'
+                        ? 'text-gold'
+                        : 'text-gray-300 hover:text-gold'
+                    }`}
+                  >
+                    <Lock size={14} />
+                    Admin
+                  </button>
+                )}
+              </>
             )}
           </div>
 
@@ -154,6 +176,18 @@ export default function Navigation({ currentPage, onNavigate, user }: Navigation
                 >
                   Sell Listings
                 </button>
+                {user.email && ADMIN_EMAILS.some(email => email.toLowerCase() === user.email?.toLowerCase()) && (
+                  <button
+                    onClick={() => {
+                      onNavigate('admin');
+                      setMobileMenuOpen(false);
+                    }}
+                    className="block w-full text-left px-4 py-3 text-sm tracking-wider text-gold hover:bg-gold/5 transition-colors flex items-center gap-2"
+                  >
+                    <Lock size={16} />
+                    Admin Dashboard
+                  </button>
+                )}
                 <button
                   onClick={handleLogout}
                   className="flex items-center gap-2 w-full px-4 py-3 text-sm tracking-wider text-gold hover:bg-gold/5 transition-colors mt-2"

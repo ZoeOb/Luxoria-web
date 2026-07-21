@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { TrendingUp, ChevronRight } from 'lucide-react';
+import { TrendingUp, Clock, Target, ChevronRight } from 'lucide-react';
 import { supabase } from '../lib/supabase';
 
 interface Investment {
